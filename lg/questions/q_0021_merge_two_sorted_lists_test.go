@@ -15,4 +15,12 @@ func TestMergeTwoLists(t *testing.T) {
 	list1 = utils.BuildList([]int{2})
 	list2 = utils.BuildList([]int{1})
 	assert.Equal(t, []int{1, 2}, utils.TraverseList(mergeTwoLists(list1, list2)))
+
+	list1 = utils.BuildList([]int{})
+	list2 = utils.BuildList([]int{})
+	assert.Empty(t, utils.TraverseList(mergeTwoLists(list1, list2)))
+
+	list1 = utils.BuildList([]int{})
+	list2 = utils.BuildList([]int{0})
+	assert.Equal(t, []int{0}, utils.TraverseList(mergeTwoLists(list1, list2)))
 }
