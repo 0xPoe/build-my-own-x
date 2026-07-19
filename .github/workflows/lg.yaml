@@ -4,9 +4,11 @@ on:
       - main
     paths:
       - "lg/**"
+      - ".github/workflows/lg.yaml"
   pull_request:
     paths:
       - "lg/**"
+      - ".github/workflows/lg.yaml"
 
 name: Continuous integration
 
@@ -19,14 +21,16 @@ jobs:
       run:
         working-directory: lg
     steps:
-      - uses: actions/setup-go@v5
+      - uses: actions/checkout@v6
+      - name: Set up Go
+        uses: actions/setup-go@v6
         with:
-          go-version: "1.21"
-      - uses: actions/checkout@v4
+          go-version-file: lg/go.mod
+          cache-dependency-path: lg/go.sum
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@v6
+        uses: golangci/golangci-lint-action@v9
         with:
-          version: v1.56
+          version: v2.12
           working-directory: lg
 
   test:
@@ -36,10 +40,11 @@ jobs:
       run:
         working-directory: lg
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
-          go-version: "1.21"
+          go-version-file: lg/go.mod
+          cache-dependency-path: lg/go.sum
       - name: Test
         run: go test -v ./...
